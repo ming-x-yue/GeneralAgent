@@ -8,7 +8,7 @@ def _get_openai_client(api_key=None, base_url=None):
     client = OpenAI(api_key=api_key, base_url=base_url, max_retries=3)
     return client
 
-def _get_azure_client(api_key=None, base_url=None):
+def _get_azure_client(api_key=None, base_url=None, api_version=None):
     import os
     from openai import AzureOpenAI
     if api_key is None and 'OPENAI_API_KEY' not in os.environ:
@@ -17,7 +17,7 @@ def _get_azure_client(api_key=None, base_url=None):
     if base_url is None and 'OPENAI_API_BASE' not in os.environ:
         raise ValueError('Please set OPENAI_API_BASE (Azure API Base URL) in environment')
     base_url = base_url or os.environ['OPENAI_API_BASE']
-    api_version = os.environ.get('AZURE_API_VERSION', '2024-05-01-preview')
+    api_version = api_version or os.environ['AZURE_API_VERSION']
     client = AzureOpenAI(
         api_key=api_key,  
         api_version=api_version,    
